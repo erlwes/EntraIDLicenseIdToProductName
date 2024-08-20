@@ -1,10 +1,12 @@
 # EntraIDLicenseIdToProductName
-Create offline lookup table for getting friendly product name from a licence GUID.
+Designed to help easily find the product name associated with a specific GUID (Globally Unique Identifier) used in Microsoft licensing.
+The script retrieves and processes a lookup table from an online source, allowing you to search for product details using a GUID. 
 
 The complete product names and service plan identifiers for licensing in Entra ID and Office 365 is found here:
 https://learn.microsoft.com/en-us/entra/identity/users/licensing-service-plan-reference
 
-The script will get the HTML-table from the website, parse it into a PowerShell-Object, and then sace it as a CSV-file for later lookup.
+In short, the HTML-table is retrived from the above website, then parsed into a PowerShell-Object, and saved to disk as a CSV-file for next lookup.
+If the CSV already exsists, it will do the lookup directly vs. the local file.
 
 # Example 1 - Lookup a single GUID/SkuID
 ```PowerShell
