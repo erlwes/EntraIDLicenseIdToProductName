@@ -8,7 +8,7 @@ https://learn.microsoft.com/en-us/entra/identity/users/licensing-service-plan-re
 In short, the HTML-table is retrived from the above website, then parsed into a PowerShell-Object, and saved to disk as a CSV-file for next lookup.
 If the CSV already exsists, it will do the lookup directly vs. the local file.
 
-# Example 1 - Lookup a single GUID/SkuID
+### 🔵 Example 1 - Lookup a single GUID/SkuID
 ```PowerShell
 .\LicenseIdToProductName.ps1 -GUID '06ebc4ee-1bb5-47dd-8120-11324bc54e06'
 ```
@@ -16,7 +16,7 @@ If the CSV already exsists, it will do the lookup directly vs. the local file.
 ![image](https://github.com/user-attachments/assets/aa5a6c06-06d2-4e36-b621-c6f692758b3a)
 
 
-# Example 2 - Display the complete table
+### 🔵 Example 2 - Display the complete table
 ```PowerShell
 .\LicenseIdToProductName.ps1 -ShowCompleteTable
 ```
