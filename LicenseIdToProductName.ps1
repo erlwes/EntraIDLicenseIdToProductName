@@ -1,3 +1,5 @@
+#Requires -Version 5.1
+#Needs to run in PowerShell 5.1. PowerShell 7 does not work since it no longer has a built in HTML-parser (parsedHtml property from invoke-webrequest)
 Param(
     [String]$GUID,
     [Switch]$ShowCompleteTable
