@@ -22,3 +22,5 @@ $Document = ParseHtml $Result.Content
 #And we should be up to speed..
 $Document.getElementsByTagName('table')
 ```
+
+This will work in PowerShell 7+, but only on Windows.
