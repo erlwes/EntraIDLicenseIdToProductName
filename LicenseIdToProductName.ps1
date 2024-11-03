@@ -1,9 +1,21 @@
-#Requires -Version 5.1
-#Needs to run in PowerShell 5.1. PowerShell 7 does not work since it no longer has a built in HTML-parser (parsedHtml property from invoke-webrequest)
 Param(
     [String]$GUID,
     [Switch]$ShowCompleteTable
 )
+
+# Function to parse HTML if PS core, and not Win PS
+function ParseHtml($string) {
+    $unicode = [System.Text.Encoding]::Unicode.GetBytes($string)
+    $html = New-Object -Com 'HTMLFile'
+    if ($html.PSObject.Methods.Name -Contains 'IHTMLDocument2_Write') {
+        $html.IHTMLDocument2_Write($unicode)
+    } 
+    else {
+        $html.write($Unicode)
+    }
+    $html.Close()
+    $html
+}
 
 # A CSV-file containing the lookuptable will be created in current directory
 $csvPath = "$((Get-Location).Path)\LicenseSkuIdLookup.csv"
@@ -16,7 +28,14 @@ if (Test-Path $csvPath) {
 # If not, get the HTML-table online, convert it to a PSObject and save it as CSV for next time
 else {
     $webrequest = Invoke-WebRequest -Uri 'https://learn.microsoft.com/en-us/entra/identity/users/licensing-service-plan-reference'
-    $table = $webrequest.ParsedHtml.getElementsByTagName('Table')[0]
+
+    if ($host.version.Major -gt 5) {
+        $document = ParseHtml $webrequest.Content
+        $table = $document.getElementsByTagName('table')[0]
+    }
+    else {
+        $table = $webrequest.ParsedHtml.getElementsByTagName('Table')[0]
+    }
 
     $skuIdLookupTable = @()
     $headers = ($table.Rows[0].Cells | Select-Object -ExpandProperty innerText).trim()
@@ -43,5 +62,5 @@ if ($GUID) {
 
 # Show the complete lookup-table in a gridview
 if ($ShowCompleteTable) {
-    $skuIdLookupTable | Out-GridView 
+    $skuIdLookupTable | Out-GridView
 }
